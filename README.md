@@ -1,7 +1,7 @@
 # AtomicStore
 Lightweight wrapper allowing easy creation of custom DataStores ready for a pseudo-atomic DataBase on ROBLOX.
 
-## Use-Case
+## Use Case
 If you want to create a transaction-based pseudo-atomic database and have full control over features such as session-locking and transaction-handling, then this wrapper will give you access to do just that. By using the wrapped stores provided you can create your own algorithms to handle transactions and sessions without dealing with unnecessary overhead provided by other solutions. Also, the low level of abstraction means that you can interface with this module in much the same way as you would a normal DataStore directly!
 
 ## Classes
