@@ -2,7 +2,7 @@
 Lightweight wrapper allowing easy creation of custom DataStores ready for a pseudo-atomic DataBase on ROBLOX.
 
 ## Use-Case
-If you want to create a transaction-based database and have full control over features such as session-locking and transaction-handling, then this wrapper will give you access to do just that.
+If you want to create a transaction-based pseudo-atomic database and have full control over features such as session-locking and transaction-handling, then this wrapper will give you access to do just that.
 
 ## Classes
 
