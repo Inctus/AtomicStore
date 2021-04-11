@@ -3,14 +3,13 @@ local DataStoreService = game:GetService("DataStoreService")
 local HttpService = game:GetService("HttpService")
 
 --<< CONSTANTS >>
-local VERSION_HISTORY_NAME 	= "VersionHistory"
-local VERSION_HISTORY_KEY		= "VersionHistoryKey"
-local VERSION_HISTORY_LENGTH 	= 5
+local VERSION_HISTORY_NAME = "VersionHistory"
+local VERSION_HISTORY_KEY = "VersionHistoryKey"
+local VERSION_HISTORY_LENGTH = 5
 
-local MAIN_DATA_NAME			= "MainData"
+local MAIN_DATA_NAME = "MainData"
 
-local JOB_ID 					= game.JobId
-local CURRENT_TIME 				= os.time
+local CURRENT_TIME = os.time
 
 --<< MODULE >>
 local TrackedStore = {}
