@@ -4,7 +4,7 @@ Lightweight wrapper allowing easy creation of custom DataStores ready for a pseu
 ## Use-Case
 If you want to create a transaction-based database and have full control over features such as session-locking and transaction-handling, then this wrapper will give you access to do just that.
 
-# Classes
+## Classes
 
 - `TrackedStore` A DataStore that has a version history.
 
