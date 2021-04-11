@@ -27,7 +27,7 @@ function TrackedStore.new(scope)
 	return self
 end
 
-function TrackedStore:LoadData(depth)
+function TrackedStore:PullData(depth)
 	if not depth then
 		depth = 1
 	end
