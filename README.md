@@ -1,2 +1,2 @@
 # AtomicStore
-Wrapper allowing easy creation of DataStores ready for an atomic DataBase on ROBLOX.
+Wrapper allowing easy creation of DataStores ready for a pseudo-atomic DataBase on ROBLOX.
