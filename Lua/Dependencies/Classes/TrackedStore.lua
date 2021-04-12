@@ -3,13 +3,10 @@ local DataStoreService = game:GetService("DataStoreService")
 local HttpService = game:GetService("HttpService")
 
 --<< CONSTANTS >>
-local VERSION_HISTORY_NAME = "VersionHistory"
-local VERSION_HISTORY_KEY = "VersionHistoryKey"
-local VERSION_HISTORY_LENGTH = 5
-
-local MAIN_DATA_NAME = "MainData"
-
-local CURRENT_TIME = os.time
+local VERSION_HISTORY_NAME 	= "VersionHistory"
+local VERSION_HISTORY_LENGTH 	= 5
+local MAIN_DATA_NAME			= "MainData"
+local CURRENT_TIME 				= os.time
 
 --<< MODULE >>
 local TrackedStore = {}
@@ -19,7 +16,7 @@ TrackedStore.__index = TrackedStore
 function TrackedStore.new(scope)
 	local self = setmetatable({}, TrackedStore)
 
-	self.OrderedDataStore = DataStoreService:GetOrderedDataStore("VersionHistory", scope)
+	self.OrderedDataStore = DataStoreService:GetOrderedDataStore(VERSION_HISTORY_NAME, scope)
 	self.MainDataStore = DataStoreService:GetDataStore(MAIN_DATA_NAME, scope)
 	self.Name = ""
 	
