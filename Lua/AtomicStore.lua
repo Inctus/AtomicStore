@@ -4,7 +4,8 @@ local Classes = Dependencies:WaitForChild("Classes")
 local Modules = Dependencies:WaitForChild("Modules")
 
 --<< MODULE >>
-local AtomicStore= {}
+local AtomicStore = {}
+AtomicStore._InstanciatedStores = {}
 
 --<< FUNCTIONS >>
 local function Initialise()
@@ -27,21 +28,40 @@ local function Initialise()
 	Modules = _modules
 end
 
---<< CONSTRUCTORS >>
+local function InternalRetrieve(store_type, ...)
+	local new_store = Classes[store_type].new(...)
+	table.insert(AtomicStore._InstanciatedStores, new_store)
+	return new_store
+end
+
+--<< RETRIEVAL FUNCTIONS >>
 function AtomicStore:RetrieveTrackedStore(...)
-	return Classes.TrackedStore.new(...)
+	return InternalRetrieve("TrackedStore", ...)
 end
 
 function AtomicStore:RetrieveGeneralStore(...)
-	return Classes.GeneralStore.new(...)
+	return InternalRetrieve("GeneralStore", ...)
 end
 
 function AtomicStore:RetrieveTrackedMultiStore(...)
-	return Classes.TrackedMuiltiStore.new(...)
+	return InternalRetrieve("TrackedMultiStore", ...)
 end
 
 function AtomicStore:RetrieveMultiStore(...)
-	return Classes.MultiStore.new(...)
+	return InternalRetrieve("MultiStore", ...)
+end
+
+--<< STORE MANAGEMENT >>
+function AtomicStore:GetStores()
+	local _list = {}
+	for name, store in pairs(AtomicStore._InstanciatedStores) do
+		table.insert(_list, store)
+	end
+	return _list
+end
+
+function AtomicStore:FindFirstStoreByName(name)
+	return AtomicStore._InstanciatedStores[name]
 end
 
 --<< INITILISATION >>
