@@ -6,11 +6,13 @@ If you want to create a transaction-based pseudo-atomic database and have full c
 
 ## Classes
 
-- `TrackedStore` A DataStore that has a version history.
+- `TrackedStore` Version History | Single Store
 
-- `GeneralStore` A DataStore that has no version history, but has only one key.
+- `TrackedMultiStore` Version History | Multi Store
 
-- `MultiStore` A DataStore that has no version history and is accessed via multiple keys.
+- `GeneralStore` No History | Single Store
+
+- `MultiStore` No History | Multi Store
 
 ## Warning
 This wrapper is low-level. This means things such as caching are not implemented, leaving you to do that yourself. Instead, these classes and the module provide an easy way for you to interface with the DataStores directly, without removing any level of control you would usually have.
