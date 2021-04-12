@@ -48,6 +48,25 @@ function Utility.Safe.SetAsync(datastore, save_key, data)
 	return success or nil
 end
 
+function Utility.Safe.UpdateAsync(datastore, save_key, update_function)
+	local retries, success = 0, false
+
+	repeat
+		retries = retries + 1
+		while not DataStoreService:GetRequestBudgetForRequestType(Enum.DataStoreRequestType.UpdateAsync) do
+			wait(RETRY_TIME)
+		end
+		success = pcall(function()
+			datastore:UpdateAsync(
+				save_key,
+				update_function
+			)
+		end)
+	until success or (retries>MAX_RETRIES)
+
+	return success or nil
+end
+
 function Utility.Safe.GetOrderedAsync(ordered_datastore, page_size)
 	local book, retries, success = nil, 0, false
 
