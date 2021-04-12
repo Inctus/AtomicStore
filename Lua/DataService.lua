@@ -36,8 +36,12 @@ function DataService:RetrieveGeneralStore(...)
 	return Classes.GeneralStore.new(...)
 end
 
-function DataService:RetrieveMultiTrackedStore(...)
-	return Classes.TrackedMultiStore.new(...)
+function DataService:RetrieveTrackedMultiStore(...)
+	return Classes.TrackedMuiltiStore.new(...)
+end
+
+function DataService:RetrieveMultiStore(...)
+	return Classes.MultiStore.new(...)
 end
 
 --<< INITILISATION >>
