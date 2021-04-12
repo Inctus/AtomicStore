@@ -4,7 +4,7 @@ local Classes = Dependencies:WaitForChild("Classes")
 local Modules = Dependencies:WaitForChild("Modules")
 
 --<< MODULE >>
-local DataService = {}
+local AtomicStore= {}
 
 --<< FUNCTIONS >>
 local function Initialise()
@@ -28,19 +28,19 @@ local function Initialise()
 end
 
 --<< CONSTRUCTORS >>
-function DataService:RetrieveTrackedStore(...)
+function AtomicStore:RetrieveTrackedStore(...)
 	return Classes.TrackedStore.new(...)
 end
 
-function DataService:RetrieveGeneralStore(...)
+function AtomicStore:RetrieveGeneralStore(...)
 	return Classes.GeneralStore.new(...)
 end
 
-function DataService:RetrieveTrackedMultiStore(...)
+function AtomicStore:RetrieveTrackedMultiStore(...)
 	return Classes.TrackedMuiltiStore.new(...)
 end
 
-function DataService:RetrieveMultiStore(...)
+function AtomicStore:RetrieveMultiStore(...)
 	return Classes.MultiStore.new(...)
 end
 
@@ -48,4 +48,4 @@ end
 Initialise()
 
 --<< RETURNEE >>
-return DataService
+return AtomicStore
