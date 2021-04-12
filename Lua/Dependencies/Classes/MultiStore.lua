@@ -11,6 +11,7 @@ function MultiStore.new(name, scope)
 	local self = setmetatable({}, MultiStore)
 	
 	self.MainDataStore = DataStoreService:GetDataStore(name, scope)
+	self.Name = ""
 	
 	return self
 end
