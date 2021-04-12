@@ -13,6 +13,7 @@ function GeneralStore.new(name, scope)
 	local self = setmetatable({}, GeneralStore)
 	
 	self.MainDataStore = DataStoreService:GetDataStore(name, scope)
+	self.Name = ""
 	
 	return self
 end
