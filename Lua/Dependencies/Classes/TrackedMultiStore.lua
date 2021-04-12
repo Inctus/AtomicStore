@@ -9,12 +9,12 @@ local MAIN_DATA_NAME			= "MainData"
 local CURRENT_TIME 				= os.time
 
 --<< MODULE >>
-local MultiTrackedStore = {}
-MultiTrackedStore.__index = MultiTrackedStore
+local TrackedMultiStore = {}
+TrackedMultiStore.__index = TrackedMultiStore
 
 --<< FUNCTIONS >>
-function MultiTrackedStore.new(scope, data_store_names)
-	local self = setmetatable({}, MultiTrackedStore)
+function TrackedMultiStore.new(scope, data_store_names)
+	local self = setmetatable({}, TrackedMultiStore)
 
 	self.OrderedDataStore = DataStoreService:GetOrderedDataStore(VERSION_HISTORY_NAME, scope)
 	self.DataStores = {}
@@ -27,12 +27,12 @@ function MultiTrackedStore.new(scope, data_store_names)
 	return self
 end
 
-function MultiTrackedStore:PullData(depth)
+function TrackedMultiStore:PullData(depth)
 	if not depth then
 		depth = 1
 	end
 	
-	local version_history = MultiTrackedStore.Utility.Safe.GetOrderedAsync(self.OrderedDataStore, depth)
+	local version_history = TrackedMultiStore.Utility.Safe.GetOrderedAsync(self.OrderedDataStore, depth)
 	if not version_history then
 		warn("VersionHistory couldn't be loaded for MultiTrackedStore:"..self.Name)
 		return nil
@@ -44,24 +44,24 @@ function MultiTrackedStore:PullData(depth)
 	
 	local extracted = {}
 	for name, data_store in  pairs(self.DataStores) do
-		extracted[name] = MultiTrackedStore.Utility.Safe.GetAsync(data_store, save_key)
+		extracted[name] = TrackedMultiStore.Utility.Safe.GetAsync(data_store, save_key)
 	end
 	
 	return extracted
 end
 
-function MultiTrackedStore:PushData(data)
+function TrackedMultiStore:PushData(data)
 	local guid = HttpService:GenerateGUID()
 	local time_stamp = CURRENT_TIME()
 	
 	for name, data_store in pairs(self.DataStores) do
-		local data_success = MultiTrackedStore.Utility.Safe.SetAsync(self.MainDataStore, guid, data)
+		local data_success = TrackedMultiStore.Utility.Safe.SetAsync(self.MainDataStore, guid, data)
 		if not data_success then
 			warn("Couldn't update DataStore:"..name.." for MultiTrackedStore:"..self.Name)
 		end
 	end
 	
-	local version_history_success = MultiTrackedStore.Utility.Safe.SetOrderedAsync(self.OrderedDataStore, guid, time_stamp)
+	local version_history_success = TrackedMultiStore.Utility.Safe.SetOrderedAsync(self.OrderedDataStore, guid, time_stamp)
 	if not version_history_success then
 		warn("Couldn't update VersionHistory for MultiTrackedStore"..self.Name)
 		return nil
@@ -71,4 +71,4 @@ function MultiTrackedStore:PushData(data)
 end
 
 --<< RETURNEE >>
-return MultiTrackedStore
+return TrackedMultiStore
