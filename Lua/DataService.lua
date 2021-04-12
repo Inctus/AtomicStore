@@ -1,25 +1,43 @@
 --<< DEPENDENCIES >>
 local Dependencies = script.Parent:WaitForChild("Dependencies")
-
-local TrackedStore = require(Dependencies.Classes.TrackedStore)
-local GeneralStore = require(Dependencies.Classes.GeneralStore)
-local Utility = require(Dependencies.Modules.Utility)
+local Classes = Dependencies:WaitForChild("Classes")
+local Modules = Dependencies:WaitForChild("Modules")
 
 --<< MODULE >>
 local DataService = {}
 
+--<< FUNCTIONS >>
+local function Initialise()
+	local _classes = {}
+	local _modules = {}
+	
+	for _, class in pairs(Classes:GetChildren()) do
+		_classes[class.Name] = require(class)
+	end
+	
+	for _, module in pairs(Modules:GetChildren()) do
+		local _required = require(module)
+		_modules[module.Name] = _required
+		for _, class in pairs(_classes) do
+			class[module.Name] = _required
+		end
+	end
+	
+	Classes = _classes
+	Modules = _modules
+end
+
 --<< CONSTRUCTORS >>
 function DataService:RetrieveTrackedStore(...)
-	return TrackedStore.new(...)
+	return Classes.TrackedStore.new(...)
 end
 
 function DataService:RetrieveGeneralStore(...)
-	return GeneralStore.new(...)
+	return Classes.GeneralStore.new(...)
 end
 
 --<< INITILISATION >>
-TrackedStore.Utility = Utility
-GeneralStore.Utility = Utility
+Initialise()
 
 --<< RETURNEE >>
 return DataService
