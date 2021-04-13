@@ -15,11 +15,9 @@ function GeneralStore.new(name, scope)
 	local self = setmetatable({}, GeneralStore)
 
 	assert(name, "GeneralStore expected arg <name>")
-	if scope == nil then scope = GLOBAL_SCOPE end
-
+	scope = scope or GLOBAL_SCOPE
 	assert(typeof(name)=="string", string.format("GeneralStore received arg <name> of type %s. Expected string.", typeof(string)))
 	assert(typeof(scope)=="string", string.format("GeneralStore received arg <scope> of type %s. Expected string.", typeof(string)))
-	
 	
 	self.MainDataStore = DataStoreService:GetDataStore(name, SCOPE_PREFIX..scope)
 	self.Name = name

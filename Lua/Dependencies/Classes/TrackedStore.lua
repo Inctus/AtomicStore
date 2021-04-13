@@ -19,8 +19,7 @@ function TrackedStore.new(name, scope)
 	local self = setmetatable({}, TrackedStore)
 
 	assert(name, "TrackedStore expected arg <name>")
-	if scope == nil then scope = GLOBAL_SCOPE end
-
+	scope = scope or GLOBAL_SCOPE
 	assert(typeof(name)=="string", string.format("TrackedStore received arg <name> of type %s. Expected string.", typeof(string)))
 	assert(typeof(scope)=="string", string.format("TrackedStore received arg <scope> of type %s. Expected string.", typeof(string)))
 
@@ -31,22 +30,28 @@ function TrackedStore.new(name, scope)
 	return self
 end
 
+function TrackedStore:GetSaveKeys(depth)
+	local version_history = TrackedStore.Utility.Safe.GetOrderedAsync(self.OrderedDataStore, depth)
+	if not version_history then
+		warn("VersionHistory couldn't be loaded for TrackedStore:"..self.Name)
+		return false
+	end
+	return version_history:GetCurrentPage()
+end
+
+function TrackedStore:GetSaveKey(depth)
+	local page = self:GetSaveKeys(depth)
+	return page and (page[depth] and page[depth].key)
+end
+
 function TrackedStore:PullData(depth)
 	if not depth then
 		depth = 1
 	end
 	
-	local version_history = TrackedStore.Utility.Safe.GetOrderedAsync(self.OrderedDataStore, depth)
-	if not version_history then
-		warn("VersionHistory couldn't be loaded for TrackedStore:"..self.Name)
-		return nil
-	end
+	local save_key = self:GetSaveKey(depth)
 	
-	local page = version_history:GetCurrentPage()
-	local version_history_data = page[depth]
-	local save_key = version_history_data.key -- timestamp would be data.value
-	
-	return TrackedStore.Utility.Safe.GetAsync(self.MainDataStore, save_key)
+	return TrackedStore.Utility.Safe.GetAsync(self.MainDataStore, save_key), save_key
 end
 
 function TrackedStore:PushData(data)
@@ -56,13 +61,13 @@ function TrackedStore:PushData(data)
 	local main_data_success = TrackedStore.Utility.Safe.SetAsync(self.MainDataStore, guid, data)
 	if not main_data_success then
 		warn("Couldn't update MainDataStore for TrackedStore:"..self.Name)
-		return nil
+		return false
 	end
 	
 	local version_history_success = TrackedStore.Utility.Safe.SetOrderedAsync(self.OrderedDataStore, guid, time_stamp)
 	if not version_history_success then
 		warn("Couldn't update VersionHistory for TrackedStore"..self.Name)
-		return nil
+		return false
 	end
 	
 	return true

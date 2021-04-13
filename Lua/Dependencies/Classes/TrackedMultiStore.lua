@@ -19,9 +19,8 @@ function TrackedMultiStore.new(name, scope, data_store_names)
 	local self = setmetatable({}, TrackedMultiStore)
 
 	assert(name, "MultiTrackedStore expected arg <name>")
-	if scope == nil then scope = GLOBAL_SCOPE end
+	scope = scope or GLOBAL_SCOPE
 	assert(data_store_names, "MultiTrackedStore expected arg <data_store_names>")
-
 	assert(typeof(name)=="string", string.format("MultiTrackedStore received arg <name> of type %s. Expected string.", typeof(string)))
 	assert(typeof(scope)=="string", string.format("MultiTrackedStore received arg <scope> of type %s. Expected string.", typeof(string)))
 	assert(typeof(data_store_names)=="table", string.format("MultiTrackedStore received arg <data_store_names> of type %s. Expected table.", typeof(data_store_names)))
@@ -37,27 +36,33 @@ function TrackedMultiStore.new(name, scope, data_store_names)
 	return self
 end
 
+function TrackedMultiStore:GetSaveKeys(depth)
+	local version_history = TrackedMultiStore.Utility.Safe.GetOrderedAsync(self.OrderedDataStore, depth)
+	if not version_history then
+		warn("VersionHistory couldn't be loaded for TrackedMultiStore:"..self.Name)
+		return false
+	end
+	return version_history:GetCurrentPage()
+end
+
+function TrackedMultiStore:GetSaveKey(depth)
+	local page = self:GetSaveKeys(depth)
+	return page and (page[depth] and page[depth].key)
+end
+
 function TrackedMultiStore:PullData(depth)
 	if not depth then
 		depth = 1
 	end
 	
-	local version_history = TrackedMultiStore.Utility.Safe.GetOrderedAsync(self.OrderedDataStore, depth)
-	if not version_history then
-		warn("VersionHistory couldn't be loaded for MultiTrackedStore:"..self.Name)
-		return nil
-	end
-	
-	local page = version_history:GetCurrentPage()
-	local version_history_data = page[depth]
-	local save_key = version_history_data.key -- timestamp would be data.value
+	local save_key = self:GetSaveKey(depth)
 	
 	local extracted = {}
 	for name, data_store in  pairs(self.DataStores) do
 		extracted[name] = TrackedMultiStore.Utility.Safe.GetAsync(data_store, save_key)
 	end
 	
-	return extracted
+	return extracted, save_key
 end
 
 function TrackedMultiStore:PushData(data)
@@ -74,7 +79,7 @@ function TrackedMultiStore:PushData(data)
 	local version_history_success = TrackedMultiStore.Utility.Safe.SetOrderedAsync(self.OrderedDataStore, guid, time_stamp)
 	if not version_history_success then
 		warn("Couldn't update VersionHistory for MultiTrackedStore"..self.Name)
-		return nil
+		return false
 	end
 	
 	return true

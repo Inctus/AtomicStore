@@ -15,8 +15,7 @@ function MultiStore.new(name, scope)
 	local self = setmetatable({}, MultiStore)
 
 	assert(name, "MultiStore expected arg <name>")
-	if scope == nil then scope = GLOBAL_SCOPE end
-
+	scope = scope or GLOBAL_SCOPE
 	assert(typeof(name)=="string", string.format("MultiStore received arg <name> of type %s. Expected string.", typeof(string)))
 	assert(typeof(scope)=="string", string.format("MultiStore received arg <scope> of type %s. Expected string.", typeof(string)))
 	
