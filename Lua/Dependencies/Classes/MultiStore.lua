@@ -2,6 +2,9 @@
 local DataStoreService = game:GetService("DataStoreService")
 local HttpService = game:GetService("HttpService")
 
+--<< CONSTANTS >>
+local SCOPE_PREFIX = script.Name -- to avoid data overlaps
+
 --<< MODULE >>
 local MultiStore = {}
 MultiStore.__index = MultiStore
@@ -9,9 +12,15 @@ MultiStore.__index = MultiStore
 --<< FUNCTIONS >>
 function MultiStore.new(name, scope)
 	local self = setmetatable({}, MultiStore)
+
+	assert(name, "MultiStore expected arg <name>")
+	if scope == nil then scope = GLOBAL_SCOPE end
+
+	assert(typeof(name)=="string", string.format("MultiStore received arg <name> of type %s. Expected string.", typeof(string)))
+	assert(typeof(scope)=="string", string.format("MultiStore received arg <scope> of type %s. Expected string.", typeof(string)))
 	
-	self.MainDataStore = DataStoreService:GetDataStore(name, scope)
-	self.Name = ""
+	self.MainDataStore = DataStoreService:GetDataStore(name, SCOPE_PREFIX..scope)
+	self.Name = name
 	
 	return self
 end

@@ -3,22 +3,30 @@ local DataStoreService = game:GetService("DataStoreService")
 local HttpService = game:GetService("HttpService")
 
 --<< CONSTANTS >>
-local VERSION_HISTORY_NAME 	= "VersionHistory"
+local VERSION_HISTORY_NAME 		= "VersionHistory"
 local VERSION_HISTORY_LENGTH 	= 5
 local MAIN_DATA_NAME			= "MainData"
 local CURRENT_TIME 				= os.time
+local SCOPE_PREFIX 				= script.Name -- to avoid data overlaps
+local GLOBAL_SCOPE 				= "global"	
 
 --<< MODULE >>
 local TrackedStore = {}
 TrackedStore.__index = TrackedStore
 
 --<< FUNCTIONS >>
-function TrackedStore.new(scope)
+function TrackedStore.new(name, scope)
 	local self = setmetatable({}, TrackedStore)
 
-	self.OrderedDataStore = DataStoreService:GetOrderedDataStore(VERSION_HISTORY_NAME, scope)
-	self.MainDataStore = DataStoreService:GetDataStore(MAIN_DATA_NAME, scope)
-	self.Name = ""
+	assert(name, "TrackedStore expected arg <name>")
+	if scope == nil then scope = GLOBAL_SCOPE end
+
+	assert(typeof(name)=="string", string.format("TrackedStore received arg <name> of type %s. Expected string.", typeof(string)))
+	assert(typeof(scope)=="string", string.format("TrackedStore received arg <scope> of type %s. Expected string.", typeof(string)))
+
+	self.OrderedDataStore = DataStoreService:GetOrderedDataStore(VERSION_HISTORY_NAME, SCOPE_PREFIX..scope)
+	self.MainDataStore = DataStoreService:GetDataStore(MAIN_DATA_NAME, SCOPE_PREFIX..scope)
+	self.Name = name
 	
 	return self
 end
