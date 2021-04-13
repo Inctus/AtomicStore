@@ -4,6 +4,7 @@ local HttpService = game:GetService("HttpService")
 
 --<< CONSTANTS >>
 local SCOPE_PREFIX = script.Name -- to avoid data overlaps
+local GLOBAL_SCOPE 				= "global"	
 
 --<< MODULE >>
 local MultiStore = {}

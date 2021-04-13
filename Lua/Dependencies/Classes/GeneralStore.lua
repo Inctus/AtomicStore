@@ -4,6 +4,7 @@ local DataStoreService = game:GetService("DataStoreService")
 --<< CONSTANTS >>
 local GENERAL_DATA_KEY	= "DataKey"
 local SCOPE_PREFIX = script.Name -- to avoid data overlaps
+local GLOBAL_SCOPE 				= "global"	
 
 --<< MODULE >>
 local GeneralStore = {}

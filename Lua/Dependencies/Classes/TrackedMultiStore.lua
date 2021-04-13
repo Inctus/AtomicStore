@@ -8,6 +8,7 @@ local VERSION_HISTORY_LENGTH 	= 5
 local MAIN_DATA_NAME			= "MainData"
 local CURRENT_TIME 				= os.time
 local SCOPE_PREFIX = script.Name -- to avoid data overlaps
+local GLOBAL_SCOPE 				= "global"	
 
 --<< MODULE >>
 local TrackedMultiStore = {}
