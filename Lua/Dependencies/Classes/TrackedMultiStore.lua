@@ -87,5 +87,9 @@ function TrackedMultiStore:PushData(data)
 	return true
 end
 
+function TrackedMultiStore:UpdateData(update_function)
+
+end
+
 --<< RETURNEE >>
 return TrackedMultiStore

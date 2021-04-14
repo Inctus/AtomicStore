@@ -1,5 +1,6 @@
 --<< SERVICES >>
 local DataStoreService = game:GetService("DataStoreService")
+local RunService = game:GetService("RunService")
 
 --<< CONSTANTS >>
 local RETRY_TIME 				= 0.1
@@ -7,6 +8,16 @@ local MAX_RETRIES 				= 30
 
 --<< UTILITY >>
 local Utility = {}
+
+function Utility.Wait(t)
+	end_time = os.clock() + t 
+
+	while os.clock() < t do
+		RunService.Heartbeat:Wait()
+	end
+
+	return os.clock() - end_time + t
+end
 
 --<< SAFE >>
 Utility.Safe = {}
@@ -17,7 +28,7 @@ function Utility.Safe.GetAsync(datastore, save_key)
 	repeat 
 		retries = retries + 1
 		while not DataStoreService:GetRequestBudgetForRequestType(Enum.DataStoreRequestType.GetAsync) do
-			wait(RETRY_TIME)
+			Utility.Wait(RETRY_TIME)
 		end
 		success = pcall(function()
 			data = datastore:GetAsync(
@@ -35,7 +46,7 @@ function Utility.Safe.SetAsync(datastore, save_key, data)
 	repeat
 		retries = retries + 1
 		while not DataStoreService:GetRequestBudgetForRequestType(Enum.DataStoreRequestType.SetIncrementAsync) do
-			wait(RETRY_TIME)
+			Utility.Wait(RETRY_TIME)
 		end
 		success = pcall(function()
 			datastore:SetAsync(
@@ -54,9 +65,9 @@ function Utility.Safe.UpdateAsync(datastore, save_key, update_function)
 	repeat
 		retries = retries + 1
 		while not DataStoreService:GetRequestBudgetForRequestType(Enum.DataStoreRequestType.UpdateAsync) do
-			wait(RETRY_TIME)
+			Utility.Wait(RETRY_TIME)
 		end
-		success = pcall(function()
+		success, data = pcall(function()
 			datastore:UpdateAsync(
 				save_key,
 				update_function
@@ -73,7 +84,7 @@ function Utility.Safe.GetOrderedAsync(ordered_datastore, page_size)
 	repeat 
 		retries = retries + 1
 		while not DataStoreService:GetRequestBudgetForRequestType(Enum.DataStoreRequestType.GetSortedAsync) > 0 do
-			wait(RETRY_TIME)
+			Utility.Wait(RETRY_TIME)
 		end
 		success = pcall(function()
 			book = ordered_datastore:GetSortedAsync(
@@ -92,7 +103,7 @@ function Utility.Safe.SetOrderedAsync(ordered_datastore, save_key, data)
 	repeat 
 		retries = retries + 1
 		while not DataStoreService:GetRequestBudgetForRequestType(Enum.DataStoreRequestType.SetIncrementSortedAsync) > 0 do
-			wait(RETRY_TIME)
+			Utility.Wait(RETRY_TIME)
 		end
 		success = pcall(function()
 			ordered_datastore:SetAsync(

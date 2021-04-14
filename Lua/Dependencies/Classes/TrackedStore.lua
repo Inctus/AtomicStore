@@ -75,5 +75,9 @@ function TrackedStore:PushData(data)
 	return true
 end
 
+function TrackedStore:UpdateData(update_function)
+
+end
+
 --<< RETURNEE >>
 return TrackedStore
