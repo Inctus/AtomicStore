@@ -51,9 +51,7 @@ function TrackedMultiStore:GetSaveKey(depth)
 end
 
 function TrackedMultiStore:PullData(depth)
-	if not depth then
-		depth = 1
-	end
+	depth = depth or 1
 	
 	local save_key = self:GetSaveKey(depth)
 	
