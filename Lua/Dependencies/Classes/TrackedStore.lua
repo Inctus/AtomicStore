@@ -44,12 +44,16 @@ function TrackedStore:GetSaveKey(depth)
 	return page and (page[depth] and page[depth].key)
 end
 
+function TrackedStore:PullDataFromKey(save_key)
+	return TrackedStore.Utility.Safe.GetAsync(self.MainDataStore, save_key), save_key
+end
+
 function TrackedStore:PullData(depth)
 	depth = depth or 1
 	
 	local save_key = self:GetSaveKey(depth)
 	
-	return TrackedStore.Utility.Safe.GetAsync(self.MainDataStore, save_key), save_key
+	return self:PullDataFromKey(save_key)
 end
 
 function TrackedStore:PushData(data)

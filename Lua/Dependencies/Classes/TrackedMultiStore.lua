@@ -50,17 +50,21 @@ function TrackedMultiStore:GetSaveKey(depth)
 	return page and (page[depth] and page[depth].key)
 end
 
-function TrackedMultiStore:PullData(depth)
-	depth = depth or 1
-	
-	local save_key = self:GetSaveKey(depth)
-	
+function TrackedStore:PullDataFromKey(save_key)
 	local extracted = {}
 	for name, data_store in  pairs(self.DataStores) do
 		extracted[name] = TrackedMultiStore.Utility.Safe.GetAsync(data_store, save_key)
 	end
 	
 	return extracted, save_key
+end
+
+function TrackedMultiStore:PullData(depth)
+	depth = depth or 1
+	
+	local save_key = self:GetSaveKey(depth)
+
+	return self:PulLDataFromKey(save_key)
 end
 
 function TrackedMultiStore:PushData(data)
