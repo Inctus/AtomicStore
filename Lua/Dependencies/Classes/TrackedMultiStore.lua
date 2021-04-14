@@ -87,8 +87,17 @@ function TrackedMultiStore:PushData(data)
 	return true
 end
 
-function TrackedMultiStore:UpdateData(update_function)
+function TrackedMultiStore:UpdateData(depth, update_function)
+	depth = depth or 1
 
+	local save_key = self:GetSaveKey(depth)
+
+	local extracted = {}
+	for name, data_store in  pairs(self.DataStores) do
+		extracted[name] = TrackedMultiStore.Utility.Safe.UpdateAsync(data_store, save_key, update_function)
+	end
+	
+	return extracted, save_key
 end
 
 --<< RETURNEE >>

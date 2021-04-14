@@ -75,8 +75,12 @@ function TrackedStore:PushData(data)
 	return true
 end
 
-function TrackedStore:UpdateData(update_function)
+function TrackedStore:UpdateData(depth, update_function)
+	depth = depth or 1
 
+	local save_key = self:GetSaveKey(depth)
+
+	return TrackedStore.Utility.Safe.UpdateAsync(self.MainDataStore, save_key), save_key
 end
 
 --<< RETURNEE >>
