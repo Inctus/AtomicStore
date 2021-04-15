@@ -72,7 +72,7 @@ function TrackedStore:PushData(data)
 		return false
 	end
 	
-	return true
+	return true, guid
 end
 
 function TrackedStore:UpdateData(depth, update_function)

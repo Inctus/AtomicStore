@@ -64,15 +64,15 @@ function TrackedMultiStore:PullData(depth)
 	
 	local save_key = self:GetSaveKey(depth)
 
-	return self:PulLDataFromKey(save_key)
+	return self:PullDataFromKey(save_key)
 end
 
-function TrackedMultiStore:PushData(data)
+function TrackedMultiStore:PushData(data_dict)
 	local guid = HttpService:GenerateGUID()
 	local time_stamp = CURRENT_TIME()
 	
 	for name, data_store in pairs(self.DataStores) do
-		local data_success = TrackedMultiStore.Utility.Safe.SetAsync(data_store, guid, data)
+		local data_success = TrackedMultiStore.Utility.Safe.SetAsync(data_store, guid, data_dict[name])
 		if not data_success then
 			warn("Couldn't update DataStore:"..name.." for MultiTrackedStore:"..self.Name)
 		end
@@ -94,7 +94,10 @@ function TrackedMultiStore:UpdateData(depth, update_function)
 
 	local extracted = {}
 	for name, data_store in  pairs(self.DataStores) do
-		extracted[name] = TrackedMultiStore.Utility.Safe.UpdateAsync(data_store, save_key, update_function)
+		local function new_update_function(old_data)
+			return update_function(name, old_data)
+		end
+		extracted[name] = TrackedMultiStore.Utility.Safe.UpdateAsync(data_store, save_key, new_update_function)
 	end
 	
 	return extracted, save_key

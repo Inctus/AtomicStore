@@ -1,0 +1,66 @@
+site_name: AtomicStore Docs
+nav:
+    - Home: 
+        - Introduction: 'index.md'
+        - Methology: 'Methodology.md'
+        - API:
+            - AtomicStore: 'API/AtomicStore.md'
+            - GeneralStore: 'API/GeneralStore.md'
+            - MultiStore: 'API/MultiStore.md'
+            - TrackedStore: 'API/TrackedStore.md'
+            - TrackedMultiStore: 'API/TrackedMultiStore.md'
+        - Resources:
+            - Examples: 'Resources/Examples.md'
+            - 'Best Practices': 'Resources/BestPractices.md'
+    - Installation: 'e.md'
+    - Changelog: 'e.md'
+
+theme:
+  favicon: /Images/atomicstore_logo.png
+  name: material
+  palette:
+    # Light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: deep purple
+      accent: purple
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to dark mode
+    # Dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: deep orange
+      accent: orange
+      toggle:
+        icon: material/weather-night
+        name: Switch to light mode
+  icon:
+    repo: fontawesome/brands/github
+  logo: /Images/atomicstore_logo.png
+  features:
+    - navigation.instant
+    - navigation.tabs
+    - navigation.expand
+    - navigation.indexes
+    - navigation.top
+markdown_extensions:
+  - toc:
+      permalink: true
+  - admonition
+  - pymdownx.highlight
+  - pymdownx.superfences
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/Inctus
+      name: Inctus' GitHub
+    - icon: fontawesome/brands/youtube
+      link: https://www.youtube.com/channel/UCMqI2VtwXsbpOYxAQpk9S0A
+      name: Inctus' YouTube
+    - icon: fontawesome/brands/discord
+      link: https://discord.gg/bNS2Jbe
+      name: Inctus' Game Discord
+copyright: INC - MIT License
+repo_url: https://github.com/Inctus/AtomicStore
+repo_name: Inctus/AtomicStore
