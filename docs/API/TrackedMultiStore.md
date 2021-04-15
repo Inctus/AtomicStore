@@ -26,7 +26,7 @@ Returns `<instance TrackedMultiStore>`
 ### `:PullData()`
 
 ```lua
-local data = TrackedMultiStore:PullData(
+local data, save_key = TrackedMultiStore:PullData(
 	<integer depth>
 )
 ```
@@ -41,7 +41,7 @@ Returns `<dict <variant data> extracted_data>, <string save_key>`
 ### `:PullDataFromKey()`
 
 ```lua
-local data = TrackedMultiStore:PullDataFromKey(
+local data, save_key = TrackedMultiStore:PullDataFromKey(
 	<string save_key>
 )
 ```
@@ -76,7 +76,7 @@ Returns `<array <string save_key> save_keys>`
 ### `:PushData()`
 
 ```lua
-local success = TrackedMultiStore:PushData(
+local success, save_key = TrackedMultiStore:PushData(
 	<dict <variant data> data_dict>
 )
 ```
@@ -91,7 +91,7 @@ Returns `<bool success>, <string save_key>`
 ### `:UpdateData()`
 
 ```lua
-local new_data = TrackedMultiStore:UpdateData(
+local new_data, save_key = TrackedMultiStore:UpdateData(
 	<integer depth>, 
 	<func update_function>
 )
@@ -111,5 +111,15 @@ Returns `<dict <variant new_data> extracted_data>, <string save_key>`
 	end
 	```
 !!! Info "The extracted_data dictionary's keys match the DataStore names provided"
+
+### `:UpdateDataFromKey()`
+
+```lua
+local new_data, save_key = TrackedMultiStore:UpdateData(
+	<string save_key>,
+	<func update_function>
+)
+```
+Returns `<dict <variant new_data> extracted_data>, <string save_key>`
 
 ------------

@@ -22,7 +22,7 @@ Returns `<instance TrackedStore>`
 ### `:PullData()`
 
 ```lua
-local data = TrackedStore:PullData(
+local data, save_key = TrackedStore:PullData(
 	<integer depth>
 )
 ```
@@ -34,7 +34,7 @@ Returns `<variant data>, <string save_key>`
 ### `:PullDataFromKey()`
 
 ```lua
-local data = TrackedStore:PullDataFromKey(
+local data, save_key = TrackedStore:PullDataFromKey(
 	<string save_key>
 )
 ```
@@ -66,11 +66,11 @@ Returns `<array <string save_key> save_keys>`
 ### `:PushData()`
 
 ```lua
-local success = TrackedStore:PushData(
+local success, save_key = TrackedStore:PushData(
 	<variant data>
 )
 ```
-Returns `<bool success>`
+Returns `<bool success>, <string save_key>`
 
 !!! Info "This function creates a new key"
 	This is not an in-place update, but instead creates a new save key and updates the version history. You can "rewind" this action.
@@ -78,7 +78,7 @@ Returns `<bool success>`
 ### `:UpdateData()`
 
 ```lua
-local new_data = TrackedStore:UpdateData(
+local new_data, save_key = TrackedStore:UpdateData(
 	<integer depth>, 
 	<func update_function>
 )
@@ -87,5 +87,15 @@ Returns `<variant new_data>, <string save_key>`
 
 !!! Warning "This function is in-place"
 	It operates on the save provided at the specified depth. This is useful if you want to create session locking since it exposes the UpdateAsync method. It shouldn't be used for saving if you want to retain a VersionHistory. It can be used to retrieve data from the store.
+
+### `:UpdateDataFromKey()`
+```lua
+local new_data, save_key = TrackedStore:UpdateDataFromKey(
+	<string save_key>, 
+	<func update_function>
+)
+```
+Returns `<variant new_data>, <string save_key>`
+
 
 ------------

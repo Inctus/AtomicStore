@@ -87,11 +87,7 @@ function TrackedMultiStore:PushData(data_dict)
 	return true, guid
 end
 
-function TrackedMultiStore:UpdateData(depth, update_function)
-	depth = depth or 1
-
-	local save_key = self:GetSaveKey(depth)
-
+function TrackedMultiStore:UpdateDataFromKey(save_key, update_function)
 	local extracted = {}
 	for name, data_store in  pairs(self.DataStores) do
 		local function new_update_function(old_data)
@@ -101,6 +97,14 @@ function TrackedMultiStore:UpdateData(depth, update_function)
 	end
 	
 	return extracted, save_key
+end
+
+function TrackedMultiStore:UpdateData(depth, update_function)
+	depth = depth or 1
+
+	local save_key = self:GetSaveKey(depth)
+
+	return self:UpdateDataFromKey(save_key, update_function)
 end
 
 --<< RETURNEE >>
