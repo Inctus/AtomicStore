@@ -9,9 +9,7 @@ DataStores instanciated with this module abstract all the useless boilerplate co
 !!! warning "This module is aimed at high-level developers, and provides no inbuilt safeguarding or rate limiting."
 	If you're looking for a simpler solution then see either [ProfileService by loleris](https://madstudioroblox.github.io/ProfileService/) or [DataStore2 by kampfkarren](https://kampfkarren.github.io/Roblox/).
 
------------------------
-
-## Project Layout
+### Project Layout
 
 The project follows a simple modular layout, with the MainModule being `AtomicStore.lua`.
 
