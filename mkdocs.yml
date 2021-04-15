@@ -16,7 +16,7 @@ nav:
     - Changelog: 'e.md'
 
 theme:
-  favicon: /Images/logo.png
+  favicon: https://raw.githubusercontent.com/Inctus/AtomicStore/main/docs/Images/logo.png
   name: material
   palette:
     # Light mode
@@ -37,7 +37,7 @@ theme:
         name: Switch to light mode
   icon:
     repo: fontawesome/brands/github
-  logo: /Images/logo.png
+  logo: https://raw.githubusercontent.com/Inctus/AtomicStore/main/docs/Images/logo.png
   features:
     - navigation.instant
     - navigation.tabs
