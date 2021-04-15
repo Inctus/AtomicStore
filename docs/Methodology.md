@@ -8,29 +8,6 @@
 
 DataStore lookups are asynchronous calls, that can error for a variety of reasons. By using a lightweight `pcall` wrapper function **and** waiting for the DataStore budget for the request type in question to be available, I minimise the risk of a surplus amount of invocations happening, while keeping the method lightweight.
 
-### Relational Database Emulation
-
-Although full normalisation would be expensive to implement on ROBLOX, since each entity would require its own `DataStore`, or key, and therefore its own set of `GetAsync` and `SetAsync`/`UpdateAsync` calls, a semi-normalised database can be achieved if you give entities that need rapid, multi-server updates their own `MultiStore`. If the primary key for these entities, a unique ID, for example a GUID, were used as a save key within a `MultiStore`, you could then use `UpdateData` queries to safely handle updating these items. 
-
-For example, an item would be stored in a store like the following:
-
-```
-MultiStore (Items; key=ItemId)
-```
-
-And an item could have a structure:
-
-```
-Item : {
-	Owners = <array UserId>
-	Trades = <array TradeId>
-}
-```
-You could then implement another `MultiStore`, for trades, with the primary key being TradeId, and then by keeping track of both Items and Trades, be able to safely implement a transactional database on ROBLOX.
-
-!!! caution "This is not a fully normalised relational database"
-	As previously explained this would be impractical to implement on ROBLOX.
-
 ---------
 
 ## Tracking Methods
