@@ -50,9 +50,7 @@ function LibraryStore:PullData()
 end
 
 function LibraryStore:PushData(data, key_list)
-	if key_list==nil then
-		key_list = self:PullKeys()
-	end
+	key_list = key_list or self:PullKeys()
 
 	local encoded = HttpService:JSONEncode(data)
 	local heuristic_length = string.len(encoded)
