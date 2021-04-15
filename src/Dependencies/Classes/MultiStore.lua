@@ -3,7 +3,7 @@ local DataStoreService = game:GetService("DataStoreService")
 local HttpService = game:GetService("HttpService")
 
 --<< CONSTANTS >>
-local SCOPE_PREFIX = script.Name -- to avoid data overlaps
+local SCOPE_PREFIX = script.Name
 local GLOBAL_SCOPE = "global"	
 
 --<< MODULE >>
@@ -16,8 +16,8 @@ function MultiStore.new(name, scope)
 
 	assert(name, "MultiStore expected arg <name>")
 	scope = scope or GLOBAL_SCOPE
-	assert(typeof(name)=="string", string.format("MultiStore received arg <name> of type %s. Expected string.", typeof(string)))
-	assert(typeof(scope)=="string", string.format("MultiStore received arg <scope> of type %s. Expected string.", typeof(string)))
+	assert(typeof(name)=="string", string.format("MultiStore received arg <name> of type %s. Expected string.", typeof(name)))
+	assert(typeof(scope)=="string", string.format("MultiStore received arg <scope> of type %s. Expected string.", typeof(scope)))
 	
 	self.MainDataStore = DataStoreService:GetDataStore(name, SCOPE_PREFIX..scope)
 	self.Name = name

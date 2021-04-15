@@ -7,7 +7,7 @@ local VERSION_HISTORY_NAME = "VersionHistory"
 local VERSION_HISTORY_LENGTH = 5
 local MAIN_DATA_NAME = "MainData"
 local CURRENT_TIME = os.time
-local SCOPE_PREFIX = script.Name -- to avoid data overlaps
+local SCOPE_PREFIX = script.Name
 local GLOBAL_SCOPE = "global"	
 
 --<< MODULE >>
@@ -20,8 +20,8 @@ function TrackedStore.new(name, scope)
 
 	assert(name, "TrackedStore expected arg <name>")
 	scope = scope or GLOBAL_SCOPE
-	assert(typeof(name)=="string", string.format("TrackedStore received arg <name> of type %s. Expected string.", typeof(string)))
-	assert(typeof(scope)=="string", string.format("TrackedStore received arg <scope> of type %s. Expected string.", typeof(string)))
+	assert(typeof(name)=="string", string.format("TrackedStore received arg <name> of type %s. Expected string.", typeof(name)))
+	assert(typeof(scope)=="string", string.format("TrackedStore received arg <scope> of type %s. Expected string.", typeof(scope)))
 
 	self.OrderedDataStore = DataStoreService:GetOrderedDataStore(VERSION_HISTORY_NAME, SCOPE_PREFIX..scope)
 	self.MainDataStore = DataStoreService:GetDataStore(MAIN_DATA_NAME, SCOPE_PREFIX..scope)

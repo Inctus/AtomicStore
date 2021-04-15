@@ -13,6 +13,8 @@ nav:
             - MultiStore: 'API/MultiStore.md'
             - TrackedStore: 'API/TrackedStore.md'
             - TrackedMultiStore: 'API/TrackedMultiStore.md'
+            - LibraryStore: 'API/LibraryStore.md'
+            - TrackedLibraryStore: 'API/LibraryStore.md'
         - Resources:
             - Examples: 'Resources/Examples.md'
             - 'Best Practices': 'Resources/BestPractices.md'

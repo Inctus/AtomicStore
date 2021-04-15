@@ -3,8 +3,8 @@ local DataStoreService = game:GetService("DataStoreService")
 local RunService = game:GetService("RunService")
 
 --<< CONSTANTS >>
-local RETRY_TIME 				= 0.1
-local MAX_RETRIES 				= 30
+local RETRY_TIME = 0.1
+local MAX_RETRIES = 30
 
 --<< UTILITY >>
 local Utility = {}
