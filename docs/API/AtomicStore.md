@@ -26,7 +26,7 @@ local GeneralStore = AtomicStore:RetrieveGeneralStore(
 )
 ```
 
-Returns `GeneralStore` instance. See [GeneralStore](/API/GeneralStore).
+Returns `GeneralStore` instance. See [GeneralStore](https://inctus.github.io/AtomicStore/API/GeneralStore/).
 
 ### `:RetrieveMultiStore()`
 
@@ -37,7 +37,7 @@ local MultiStore = AtomicStore:RetrieveMultiStore(
 )
 ```
 
-Returns `MultiStore` instance. See [MultiStore](/API/MultiStore).
+Returns `MultiStore` instance. See [MultiStore](https://inctus.github.io/AtomicStore/API/MultiStore/).
 
 ### `:RetrieveTrackedStore()`
 
@@ -48,7 +48,7 @@ local TrackedStore = AtomicStore:RetrieveTrackedStore(
 )
 ```
 
-Returns `TrackedStore` instance. See [TrackedStore](/API/TrackedStore).
+Returns `TrackedStore` instance. See [TrackedStore](https://inctus.github.io/AtomicStore/API/TrackedStore/).
 
 ### `:RetrieveTrackedMultiStore()`
 
@@ -60,7 +60,7 @@ local TrackedMultiStore = AtomicStore:RetrieveTrackedMultiStore(
 )
 ```
 
-Returns `TrackedMultiStore` instance. See [TrackedMultiStore](/API/TrackedMultiStore).
+Returns `TrackedMultiStore` instance. See [TrackedMultiStore](https://inctus.github.io/AtomicStore/API/TrackedMultiStore/).
 
 ---------------------
 
