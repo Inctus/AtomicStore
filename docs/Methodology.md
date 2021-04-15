@@ -31,13 +31,13 @@ You could then implement another `MultiStore`, for trades, with the primary key 
 
 ---------
 
-## Store Methods
+## Tracking Methods
 
-### TrackedMultiStores
+### Mutliple Stores
 
 `TrackedMultiStore`s use multiple `DataStores` with a single `OrderedDataStore` for the version history. Each `DataStore` within the main `TrackedStore` acts independently so you should use `PullData` sparingly.
 
-### Version Tracking
+### Version History
 
 `TrackedStores`, be it of either the Multi or Single variety, rely on the same methodology, which I first encountered on the DevForum referenced as Berezza's Method. This involves using an `OrderedDataStore` to keep track of save keys, by ordering them according to their timestamps, which means a simple descending lookup can find the recentmost save keys. Then, a separate call has to be made to extract the data from that save key from a regular `DataStore`. By managing save keys, you can create a solid system using Session-Locking, and maintain atomicity of data in the database.
 
