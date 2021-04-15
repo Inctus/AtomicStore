@@ -22,6 +22,7 @@ nav:
 theme:
   favicon: 'https://raw.githubusercontent.com/Inctus/AtomicStore/main/docs/Images/logo.png'
   name: material
+  custom_dir: overrides
   palette:
     # Light mode
     - media: "(prefers-color-scheme: light)"
@@ -67,7 +68,7 @@ extra:
     - icon: fontawesome/brands/discord
       link: https://discord.gg/bNS2Jbe
       name: Inctus' Game Discord
-      
+
 copyright: INC - MIT License
 repo_url: https://github.com/Inctus/AtomicStore
 repo_name: Inctus/AtomicStore
