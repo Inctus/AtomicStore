@@ -1,5 +1,7 @@
 # Methodology
 
+------------
+
 ## Universal Methods
 
 ### Safe Lookups
@@ -42,4 +44,4 @@ You could then implement another `MultiStore`, for trades, with the primary key 
 `TrackedStores`, be it of either the Multi or Single variety, rely on the same methodology, which I first encountered on the DevForum referenced as Berezza's Method. This involves using an `OrderedDataStore` to keep track of save keys, by ordering them according to their timestamps, which means a simple descending lookup can find the recentmost save keys. Then, a separate call has to be made to extract the data from that save key from a regular `DataStore`. By managing save keys, you can create a solid system using Session-Locking, and maintain atomicity of data in the database.
 
 !!! warning "TrackedStores UpdateData method is in place"
-	It doesn't create a new index in the VersionHistory since this would break mean that too many API calls would happen simultaneously, removing the advantages that UpdateAsync offers.
+	It doesn't create a new index in the VersionHistory since this would mean that too many API calls would happen simultaneously, removing the advantages that UpdateAsync offers.

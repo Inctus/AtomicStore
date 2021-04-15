@@ -1,5 +1,5 @@
 # Introduction
-
+-----------
 ## Description
 
 AtomicStore is a lightweight wrapper allowing easy creation of custom DataStores ready for a pseudo-atomic DataBase on Roblox.
@@ -8,6 +8,8 @@ DataStores instanciated with this module abstract all the useless boilerplate co
 
 !!! warning "This module is aimed at high-level developers, and provides no inbuilt safeguarding or rate limiting."
 	If you're looking for a simpler solution then see either [ProfileService by loleris](https://madstudioroblox.github.io/ProfileService/) or [DataStore2 by kampfkarren](https://kampfkarren.github.io/Roblox/).
+
+-----------------------
 
 ## Project Layout
 
@@ -30,6 +32,8 @@ Here, the `Utility.lua` file contains a set of functions for safe access to Data
 
 !!! tip "Use the installer to properly install the module and update it when you want to."
 	This is properly documented in the installation guide.
+
+-------
 
 ## Why AtomicStore?
 
