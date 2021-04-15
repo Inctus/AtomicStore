@@ -37,7 +37,7 @@ function Utility.Safe.GetAsync(datastore, save_key)
 		end)
 	until success or (retries>MAX_RETRIES)
 
-	return success and data or nil
+	return success and data
 end
 
 function Utility.Safe.SetAsync(datastore, save_key, data)
@@ -55,12 +55,12 @@ function Utility.Safe.SetAsync(datastore, save_key, data)
 			)
 		end)
 	until success or (retries>MAX_RETRIES)
-
+	
 	return success
 end
 
 function Utility.Safe.UpdateAsync(datastore, save_key, update_function)
-	local retries, success = 0, false
+	local data, retries, success = nil, 0, false
 
 	repeat
 		retries = retries + 1
@@ -75,7 +75,7 @@ function Utility.Safe.UpdateAsync(datastore, save_key, update_function)
 		end)
 	until success or (retries>MAX_RETRIES)
 
-	return success
+	return success and data
 end
 
 function Utility.Safe.GetOrderedAsync(ordered_datastore, page_size)
@@ -94,7 +94,7 @@ function Utility.Safe.GetOrderedAsync(ordered_datastore, page_size)
 		end)
 	until success or (retries>MAX_RETRIES) 
 
-	return success and book or nil
+	return success and book
 end
 
 function Utility.Safe.SetOrderedAsync(ordered_datastore, save_key, data)
