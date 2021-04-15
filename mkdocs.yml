@@ -1,4 +1,8 @@
 site_name: AtomicStore Docs
+site_author: Inctus
+site_url: https://inctus.github.io/AtomicStore/
+site_description: Documentation for AtomicStore
+
 nav:
     - Home: 
         - Introduction: 'index.md'
@@ -44,12 +48,14 @@ theme:
     - navigation.expand
     - navigation.indexes
     - navigation.top
+
 markdown_extensions:
   - toc:
       permalink: true
   - admonition
   - pymdownx.highlight
   - pymdownx.superfences
+
 extra:
   social:
     - icon: fontawesome/brands/github
@@ -61,6 +67,7 @@ extra:
     - icon: fontawesome/brands/discord
       link: https://discord.gg/bNS2Jbe
       name: Inctus' Game Discord
+      
 copyright: INC - MIT License
 repo_url: https://github.com/Inctus/AtomicStore
 repo_name: Inctus/AtomicStore
