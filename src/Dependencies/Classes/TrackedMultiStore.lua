@@ -84,7 +84,7 @@ function TrackedMultiStore:PushData(data_dict)
 		return false
 	end
 	
-	return true
+	return true, guid
 end
 
 function TrackedMultiStore:UpdateData(depth, update_function)
