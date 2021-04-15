@@ -61,7 +61,7 @@ function LibraryStore:PushData(data, key_list)
 		warn("LibraryStore:"..self.Name.." detects inefficient usage; consider switching to a GeneralStore")
 	end
 
-	local heuristic_n_keys, progress = math.ceil(heuristic_length/MAX_PER_KEY)
+	local heuristic_n_keys, progress, update_flag = math.ceil(heuristic_length/MAX_PER_KEY), 0, false
 	for i = 1, heuristic_n_keys do
 		local slice = string.sub(encoded, (i-1)*MAX_PER_KEY, i*MAX_PER_KEY)
 		if i <= #key_list then
@@ -69,6 +69,9 @@ function LibraryStore:PushData(data, key_list)
 				break
 			end
 		else
+			if not update_flag then
+				update_flag = true
+			end
 			local guid
 			repeat
 				guid = HttpService:GenerateGUID()
@@ -82,6 +85,10 @@ function LibraryStore:PushData(data, key_list)
 			end
 		end
 		progress = i
+	end
+
+	if update_flag then
+		LibraryStore.Utility.SetAsync(self.DataStore, KEY_LIST_KEY, key_list)
 	end
 
 	if progress ~= heuristic_n_keys then
