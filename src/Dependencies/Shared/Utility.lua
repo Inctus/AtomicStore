@@ -19,6 +19,14 @@ function Utility.Wait(t)
 	return os.clock() - end_time + t
 end
 
+function Utility.Ternary(condition, a, b)
+	if condition then 
+		return a 
+	else
+		return b
+	end
+end
+
 --<< SAFE >>
 Utility.Safe = {}
 
@@ -37,7 +45,7 @@ function Utility.Safe.GetAsync(datastore, save_key)
 		end)
 	until success or (retries>MAX_RETRIES)
 
-	return success and data
+	return Utility.Ternary(success, data, success)
 end
 
 function Utility.Safe.SetAsync(datastore, save_key, data)
@@ -75,7 +83,7 @@ function Utility.Safe.UpdateAsync(datastore, save_key, update_function)
 		end)
 	until success or (retries>MAX_RETRIES)
 
-	return success and data
+	return Utility.Ternary(success, data, success)
 end
 
 function Utility.Safe.GetOrderedAsync(ordered_datastore, page_size)
@@ -94,7 +102,7 @@ function Utility.Safe.GetOrderedAsync(ordered_datastore, page_size)
 		end)
 	until success or (retries>MAX_RETRIES) 
 
-	return success and book
+	return Utility.Ternary(success, book, success)
 end
 
 function Utility.Safe.SetOrderedAsync(ordered_datastore, save_key, data)

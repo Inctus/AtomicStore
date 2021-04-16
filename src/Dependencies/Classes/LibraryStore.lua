@@ -5,8 +5,8 @@ local HttpService = game:GetService("HttpService")
 --<< CONSTANTS >>
 local MAX_PER_KEY = 3999950 -- Up from 256kB, to 4MB! Leave suitable buffer.
 local SCOPE_PREFIX = script.Name
-local KEY_LIST_KEY = "DataIndex"
-local COLLISION_RETRY_TIME = 1/60
+local SAVE_META_DATA_KEY = "SaveKey"
+local START_INDEX = 1
 
 --<< MODULE >>
 local LibraryStore = {}
@@ -27,72 +27,77 @@ function LibraryStore.new(name, scope)
 	return self
 end
 
-function LibraryStore:PullDataFromKey(key)
-	return LibraryStore.Utility.Safe.GetAsync(self.DataStore, key)
+function LibraryStore:PullDataFromKey(save_key)
+	return LibraryStore.Utility.Safe.GetAsync(self.DataStore, save_key)
 end
 
-function LibraryStore:PullKeys()
-	return self:PullDataFromKey(KEY_LIST_KEY) or {} -- Give empty key array
-end
-
-function LibraryStore:PullDataFromKeys(key_list)
-	local extracted = {}
-
-	for _, key in ipairs(key_list) do 
-		table.insert(extracted,  self:PullDataFromKey(key))
-	end
-
-	return extracted, key_list
+function LibraryStore:PullSaveMetaData()
+	return self:PullDataFromKey(SAVE_META_DATA_KEY)
 end
 
 function LibraryStore:PullData()
-	return self:PullDataFromKeys(self:PullKeys())
-end
-
-function LibraryStore:PushData(data, key_list)
-	key_list = key_list or self:PullKeys()
-
-	local encoded = HttpService:JSONEncode(data)
-	local heuristic_length = string.len(encoded)
-
-	if heuristic_length < MAX_PER_KEY then
-		warn("LibraryStore:"..self.Name.." detects inefficient usage; consider switching to a GeneralStore")
+	local meta_data = self:PullSaveMetaData()
+	if meta_data==false then
+		return false, "Couldn't load MetaData"
+	elseif meta_data==nil then
+		meta_data = {start=START_INDEX, length=-1}
 	end
 
-	local heuristic_n_keys, progress, update_flag = math.ceil(heuristic_length/MAX_PER_KEY), 0, false
-	for i = 1, heuristic_n_keys do
-		local slice = string.sub(encoded, (i-1)*MAX_PER_KEY, i*MAX_PER_KEY)
-		if i <= #key_list then
-			if not LibraryStore.Utility.Safe.SetAsync(self.DataStore, key_list[i], slice) then
-				break
-			end
-		else
-			if not update_flag then
-				update_flag = true
-			end
-			local guid
-			repeat
-				guid = HttpService:GenerateGUID()
-				if not table.find(key_list, guid) then
-					break
-				end
-			until not LibraryStore.Utility.Wait(COLLISION_RETRY_TIME)
-			table.insert(key_list, guid)
-			if not LibraryStore.Utility.Safe.SetAsync(self.DataStore, guid, slice) then
-				break
-			end
+	local extracted, progress = "", 0
+	for i = meta_data.start, meta_data.start+save_meta_data.length-1 do 
+		local data = self:PullDataFromKey(tostring(i))
+		if data==false then
+			break
+		elseif data==nil then
+			data=""
+		end
+		extracted = extracted .. data
+		progress = progress + 1
+	end
+
+	if progress < save_meta_data.length then
+		return false, "Couldn't load the "..tostring(progress).."th slice of data"
+	end
+
+	return HttpService:JSONDecode(extracted)
+end
+
+function LibraryStore:PushData(data)
+	local meta_data = self:PullSaveMetaData()
+	if meta_data==false then
+		return false, "Couldn't load MetaData"
+	elseif meta_data==nil then
+		meta_data = {start=START_INDEX, length=-1}
+	end
+	local next_available = meta_data.start + meta_data.length
+
+	local json_data = HttpService:JSONEncode(data)
+	local length = string.len(json_data)
+	local heuristic_slices = math.ceil(length / MAX_PER_KEY)
+
+	if heuristic_slices == 1 then
+		warn("Improper usage detected for LibraryStore:"..self.Name..". Consider switching to GeneralStore.")
+	end
+
+	local progress = 0
+	for i = next_available, next_available+heuristic_slices-1 do
+		local current_slice = string.sub(json_data, (i-1)*MAX_PER_KEY + 1, i*MAX_PER_KEY)
+		if not LibraryStore.Utility.Safe.SetAsync(self.DataStore, tostring(i), current_slice) then
+			break
 		end
 		progress = i
 	end
-
-	if update_flag then
-		LibraryStore.Utility.SetAsync(self.DataStore, KEY_LIST_KEY, key_list)
+	if progress < heuristic_slices then
+		return false, "Couldn't save the "..tostring(#extracted+1).." slice of data for LibraryStore:"..self.Name
 	end
 
-	if progress ~= heuristic_n_keys then
-		return false, progress
+	meta_data.start = next_available
+	meta_data.length = heuristic_slices
+	local meta_success = LibraryStore.Utility.Safe.SetAsync(self.DataStore, SAVE_META_DATA_KEY, meta_data)
+	if meta_success then
+		return true
 	else 
-		return true, key_list
+		return false, "Couldn't save MetaData for LibraryStore:"..self.Name
 	end
 end
 
