@@ -38,9 +38,8 @@ end
 
 function TrackedMultiStore:GetSaveKeys(depth)
 	local version_history = TrackedMultiStore.Utility.Safe.GetOrderedAsync(self.OrderedDataStore, depth)
-	if not version_history then
-		warn("VersionHistory couldn't be loaded for TrackedMultiStore:"..self.Name)
-		return false
+	if version_history==false then
+		return false, "VersionHistory couldn't be loaded"
 	end
 	return version_history:GetCurrentPage()
 end
@@ -80,8 +79,7 @@ function TrackedMultiStore:PushData(data_dict)
 	
 	local version_history_success = TrackedMultiStore.Utility.Safe.SetOrderedAsync(self.OrderedDataStore, guid, time_stamp)
 	if not version_history_success then
-		warn("Couldn't update VersionHistory for MultiTrackedStore"..self.Name)
-		return false
+		return false, "Couldn't update VersionHistory"
 	end
 	
 	return true, guid

@@ -32,9 +32,8 @@ end
 
 function TrackedStore:GetSaveKeys(depth)
 	local version_history = TrackedStore.Utility.Safe.GetOrderedAsync(self.OrderedDataStore, depth)
-	if not version_history then
-		warn("VersionHistory couldn't be loaded for TrackedStore:"..self.Name)
-		return false
+	if version_history==false then
+		return false, "VersionHistory couldn't be loaded"
 	end
 	return version_history:GetCurrentPage()
 end
@@ -62,21 +61,24 @@ function TrackedStore:PushData(data)
 	
 	local main_data_success = TrackedStore.Utility.Safe.SetAsync(self.MainDataStore, guid, data)
 	if not main_data_success then
-		warn("Couldn't update MainDataStore for TrackedStore:"..self.Name)
-		return false
+		return false, "Couldn't update MainDataStore"
 	end
 	
 	local version_history_success = TrackedStore.Utility.Safe.SetOrderedAsync(self.OrderedDataStore, guid, time_stamp)
 	if not version_history_success then
-		warn("Couldn't update VersionHistory for TrackedStore"..self.Name)
-		return false
+		return false, "Couldn't update VersionHistory"
 	end
 	
 	return true, guid
 end
 
 function TrackedStore:UpdateDataFromKey(save_key, update_function)
-	return TrackedStore.Utility.Safe.UpdateAsync(self.MainDataStore, save_key), save_key
+	local new_data = TrackedStore.Utility.Safe.UpdateAsync(self.MainDataStore, save_key), save_key
+	if new_data==false then
+		return false, "Couldn't update data"
+	else
+		return new_data
+	end
 end
 
 function TrackedStore:UpdateData(depth, update_function)
