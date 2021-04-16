@@ -12,7 +12,7 @@
 
 </code>
 
-<img style="float: right;" width=50px; src="https://raw.githubusercontent.com/Inctus/AtomicStore/main/docs/Images/logo.png">
+<img width=50px; src="https://raw.githubusercontent.com/Inctus/AtomicStore/main/docs/Images/logo.png">
 
 </div>
 
