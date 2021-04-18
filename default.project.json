@@ -6,7 +6,7 @@
     "ServerStorage": {
       "$className": "ServerStorage",
 
-      "Zone": {
+      "AtomicStore": {
         "$path": "src/AtomicStore"
       }
     }
