@@ -6,7 +6,7 @@
 
  Control Your Data   
 
- [DevForum Post]() | [Documentation](https://meta.discourse.org/t/discourse-moderation-guide/63116) | [Changelog](https://meta.discourse.org/t/how-to-contribute-to-discourse/53797)
+ [DevForum Post]() | [Documentation](https://inctus.github.io/AtomicStore/) | [Changelog](https://inctus.github.io/AtomicStore/Changelog)
  
  Run `require(6697537150)` in the Studio Command Bar
 
