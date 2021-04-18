@@ -25,6 +25,6 @@ jobs:
 
     - name: Deploy
       run: |
-        rojo upload --cookie "$ROBLOSECURITY" --asset_id 6245329519 src
+        rojo upload --cookie "$ROBLOSECURITY" --asset_id 6697379606 src
       env:
         ROBLOSECURITY: ${{ secrets.ROBLOSECURITY }} # d
