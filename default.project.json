@@ -1,0 +1,14 @@
+{
+  "name": "AtomicStore",
+  "tree": {
+    "$className": "DataModel",
+
+    "ServerStorage": {
+      "$className": "ServerStorage",
+
+      "Zone": {
+        "$path": "src/AtomicStore"
+      }
+    }
+  }
+}

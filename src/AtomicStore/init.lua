@@ -1,5 +1,5 @@
 --<< DEPENDENCIES >>
-local Dependencies = script.Parent:WaitForChild("Dependencies")
+local Dependencies = script:WaitForChild("Dependencies")
 local Classes = Dependencies:WaitForChild("Classes")
 local Shared = Dependencies:WaitForChild("Shared")
 
