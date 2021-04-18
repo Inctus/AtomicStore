@@ -4,9 +4,7 @@
 
 <div align=center> 
 
- Control Your Data   
- 
- ---------------
+ <h>Control Your Data</h>
 
  [DevForum Post]() | [Documentation](https://inctus.github.io/AtomicStore/)
  
