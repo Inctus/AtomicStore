@@ -8,7 +8,7 @@
  
  ---------------
 
- [DevForum Post]() | [Documentation](https://inctus.github.io/AtomicStore/) | [Changelog](https://inctus.github.io/AtomicStore/Changelog)
+ [DevForum Post]() | [Documentation](https://inctus.github.io/AtomicStore/)
  
  To Install: Run `require(6697537150)` in the Studio Command Bar
 
