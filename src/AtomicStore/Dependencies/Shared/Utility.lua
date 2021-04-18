@@ -10,7 +10,7 @@ local MAX_RETRIES = 30
 local Utility = {}
 
 function Utility.Wait(t)
-	end_time = os.clock() + t 
+	local end_time = os.clock() + t 
 
 	while os.clock() < t do
 		RunService.Heartbeat:Wait()

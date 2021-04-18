@@ -7,6 +7,7 @@ local MAX_PER_KEY = 3999950 -- Up from 256kB, to 4MB! Leave suitable buffer.
 local SCOPE_PREFIX = script.Name
 local SAVE_META_DATA_KEY = "SaveKey"
 local START_INDEX = 1
+local GLOBAL_SCOPE = "global"	
 
 --<< MODULE >>
 local LibraryStore = {}
@@ -44,7 +45,7 @@ function LibraryStore:PullData()
 	end
 
 	local extracted, progress = "", 0
-	for i = meta_data.start, meta_data.start+save_meta_data.length-1 do 
+	for i = meta_data.start, meta_data.start+meta_data.length-1 do 
 		local data = self:PullDataFromKey(tostring(i))
 		if data==false then
 			break
@@ -55,7 +56,7 @@ function LibraryStore:PullData()
 		progress = progress + 1
 	end
 
-	if progress < save_meta_data.length then
+	if progress < meta_data.length then
 		return false, "Couldn't load the "..tostring(progress).."th slice of data"
 	end
 
@@ -88,7 +89,7 @@ function LibraryStore:PushData(data)
 		progress = i
 	end
 	if progress < heuristic_slices then
-		return false, "Couldn't save the "..tostring(#extracted+1).." slice of data for LibraryStore:"..self.Name
+		return false, "Couldn't save the "..tostring(progress+1).."th slice of data for LibraryStore:"..self.Name
 	end
 
 	meta_data.start = next_available

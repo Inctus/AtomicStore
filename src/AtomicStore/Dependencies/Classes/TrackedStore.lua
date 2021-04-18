@@ -73,11 +73,11 @@ function TrackedStore:PushData(data)
 end
 
 function TrackedStore:UpdateDataFromKey(save_key, update_function)
-	local new_data = TrackedStore.Utility.Safe.UpdateAsync(self.MainDataStore, save_key), save_key
+	local new_data = TrackedStore.Utility.Safe.UpdateAsync(self.MainDataStore, save_key)
 	if new_data==false then
 		return false, "Couldn't update data"
 	else
-		return new_data
+		return new_data, save_key
 	end
 end
 
