@@ -51,6 +51,10 @@ function AtomicStore:RetrieveMultiStore(...)
 	return InternalRetrieve("MultiStore", ...)
 end
 
+function AtomicStore:RetrieveLibraryStore(...)
+	return InternalRetrieve("LibraryStore", ...)
+end
+
 --<< STORE MANAGEMENT >>
 function AtomicStore:GetStores()
 	local _list = {}
