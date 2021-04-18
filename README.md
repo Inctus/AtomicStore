@@ -7,6 +7,8 @@
  Control Your Data   
 
  [DevForum Post]() | [Documentation](https://meta.discourse.org/t/discourse-moderation-guide/63116) | [Changelog](https://meta.discourse.org/t/how-to-contribute-to-discourse/53797)
+ 
+ Run `require(6697537150)` in the Studio Command Bar
 
 <img width=50px; src="https://raw.githubusercontent.com/Inctus/AtomicStore/main/docs/Images/logo.png">
 
