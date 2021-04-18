@@ -2,6 +2,26 @@
 
 ------------
 
+## Failure Detection
+
+Failures are all wrapped in pcalls and are detected when you receive a value of `false` from the `PullData`/`PushData`/`UpdateData` call, followed by an error message. Here's an example:
+
+```lua
+local data, code = GeneralStore:PullData()
+if data==false then
+	-- failed
+elseif data==nil then
+	-- no data
+else
+	-- data
+end
+```
+
+!!! Warning "For this reason storing `false` by itself will lead to ambiguities"
+	Try to avoid storing boolean values directly since it will interfere with your error catching/monitoring.
+
+------------
+
 ## Store Usage
 
 ### [GeneralStore](https://inctus.github.io/AtomicStore/API/GeneralStore/)
