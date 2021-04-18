@@ -1,6 +1,6 @@
 {
-    "name": "AtomicStoreInstaller",
+    "name": "MainModule",
     "tree": {
-        "$path": "AtomicStoreInstaller"
+        "$path": "MainModule"
     }
 }
