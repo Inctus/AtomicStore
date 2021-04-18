@@ -11,6 +11,7 @@ local ACTION_NAME = "AtomicStore Installation"
 local STRUCTURE = "https://raw.githubusercontent.com/Inctus/AtomicStore/main/default.project.json"
 local HTTP_ENABLED = HttpService.HttpEnabled
 local CHILD_IGNORE = {["$className"]=true, ["$path"]=true}
+local NAME = "AtomicStore"
 
 --<< FUNCTIONS >>
 function FindPath(tree)
@@ -45,7 +46,7 @@ else
 end
 
 local success, object = pcall(function()
-	return InsertService:LoadAsset(ASSET_ID)
+	return InsertService:LoadAsset(ASSET_ID):FindFirstChildWhichIsA("LuaSourceContainer")
 end)
 
 if success then
