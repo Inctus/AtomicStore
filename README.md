@@ -15,3 +15,5 @@
 </div>
 
 --------------------
+
+[![MkDocs Deploy](https://github.com/Inctus/AtomicStore/actions/workflows/DeployDocs.yml/badge.svg)](https://github.com/Inctus/AtomicStore/actions/workflows/DeployDocs.yml)
