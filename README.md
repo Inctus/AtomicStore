@@ -4,8 +4,6 @@
 
 <div align=center> 
 
-<h1>AtomicStore</h1>
-
  Control Your Data   
 
  [DevForum Post]() | [Documentation](https://meta.discourse.org/t/discourse-moderation-guide/63116) | [Changelog](https://meta.discourse.org/t/how-to-contribute-to-discourse/53797)
