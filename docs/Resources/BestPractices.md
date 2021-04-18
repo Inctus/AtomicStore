@@ -1,35 +1,37 @@
 # Best Practices
 
+------------
+
 ## Store Usage
 
 ### [GeneralStore](https://inctus.github.io/AtomicStore/API/GeneralStore/)
 
-GeneralStores provide an interface with a small amount of data, through a single key, with no history. This means that they are not ideal for saving whole sets of player data, but are instead suited more to saving single entities.
+`GeneralStore`s provide an interface with a small amount of data, through a single key, with no history. This means that they are not ideal for saving whole sets of player data, but are instead suited more to saving single entities.
 
 ### [MultiStore](https://inctus.github.io/AtomicStore/API/MultiStore/)
 
-MultiStores provide an interface with a small amount of data, through many keys, with no history. This means that they are ideal for tracking multi-key entities such as Items, with each UID having their own keys. 
+`MultiStore`s provide an interface with a small amount of data, through many keys, with no history. This means that they are ideal for tracking multi-key entities such as Items, with each UID having their own keys. 
 
 !!! Warning "If Atomicity is important, use `UpdateData` in preference to `PullData`/`PushData`"
 	This is due to UpdateData exposing the inbuilt UpdateAsync method, which A) doesn't cache, B) doesn't have the same 6 second key limit, C) retries until it performs its intended purpose, D) is cancellable, by returning `nil`.
 
 ### [TrackedStore](https://inctus.github.io/AtomicStore/API/TrackedStore/)
 
-TrackedStores provide an interface with a large amount of data, through a single key, with a version history. This means it is suited to storing a regular amount of player data, in a regular game scenario, and since it has a 1:1 `PullData`-`GetAsync` call ratio, it will not consume your data budgets unnecessarily.
+`TrackedStore`s provide an interface with a large amount of data, through a single key, with a version history. This means it is suited to storing a regular amount of player data, in a regular game scenario, and since it has a 1:1 `PullData`-`GetAsync` call ratio, it will not consume your data budgets unnecessarily.
 
 !!! Note "You're advised to use this as a main data store, and not an entity store"
 	Access it using `PullData` and `PushData` and apply session locking with `UpdateData` since pulling and pushing isn't guaranteed to be atomic.
 
 ### [TrackedMultiStore](https://inctus.github.io/AtomicStore/API/TrackedMultiStore/)
 
-TrackedMultiStores provide an interface with an even larger amount of data, through multiple keys, with a shared version history. It is suited to a large amount of player data, such as storing house arrangements, since it has a 1:many `PullData`-`GetAsync` call ratio, it is advised to use TrackedStores wherever possible. 
+`TrackedMultiStore`s provide an interface with an even larger amount of data, through multiple keys, with a shared version history. It is suited to a large amount of player data, such as storing house arrangements, since it has a 1:many `PullData`-`GetAsync` call ratio, it is advised to use TrackedStores wherever possible. 
 
 !!! Note "You're advised to use this as a main data store, and not an entity store"
 	Access it using `PullData` and `PushData` and apply session locking with `UpdateData` since pulling and pushing isn't guaranteed to be atomic.
 
 ### [LibraryStore](https://inctus.github.io/AtomicStore/API/LibraryStore.md)
 
-LibraryStores provide an interface with a huge amount of data, through a single "key", without a version history. It is suited to an extremely amount of data, for example a map layout, or contents of several player-maintained encyclopaedias. It uses multiple `GetAsync` calls per `PullData` call, and the same applies to the `SetAsync` calls with `PushData`. It has no exposed `UpdateData` method since it would defeat the benefits of using `UpdateAsync` since there is no way to implement an all or nothing atomic call to poll all keys used by the store.
+`LibraryStore`s provide an interface with a huge amount of data, through a single "key", without a version history. It is suited to an extremely amount of data, for example a map layout, or contents of several player-maintained encyclopaedias. It uses multiple `GetAsync` calls per `PullData` call, and the same applies to the `SetAsync` calls with `PushData`. It has no exposed `UpdateData` method since it would defeat the benefits of using `UpdateAsync` since there is no way to implement an all or nothing atomic call to poll all keys used by the store.
 
 ------------
 

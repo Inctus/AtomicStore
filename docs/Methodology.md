@@ -14,7 +14,7 @@ DataStore lookups are asynchronous calls, that can error for a variety of reason
 
 ### Mutliple Stores
 
-`TrackedMultiStore`s use multiple `DataStores` with a single `OrderedDataStore` for the version history. Each `DataStore` within the main `TrackedStore` acts independently so you should use `PullData` sparingly.
+`TrackedMultiStore`s use multiple `DataStore`s with a single `OrderedDataStore` for the version history. Each `DataStore` within the main `TrackedStore` acts independently so you should use `PullData` sparingly.
 
 ### Version History
 
@@ -22,3 +22,19 @@ DataStore lookups are asynchronous calls, that can error for a variety of reason
 
 !!! warning "TrackedStores UpdateData method is in place"
 	It doesn't create a new index in the VersionHistory since this would mean that too many API calls would happen simultaneously, removing the advantages that UpdateAsync offers.
+
+---------
+
+## Library Methods
+
+### Data Slicing
+
+`LibraryStore`s allow for an infinite input data size by slicing it up into chunks, and then assigning each chunk a contiguous DataStore key, for easy retrieval. It essentially mimics an array with a variable starting index, similar to a Displacement Addressing Mode, which is essentially Indexed Addressing with no fixed start position. 
+
+### Multiple Stores
+
+`LibraryStore`s use multiple `DataStore`s, one for each slice of data, and another for metadata assosciated with the save.
+
+### Maintaining Atomicity
+
+`LibraryStore`s maintain atomicity by not overwriting data ever. This means that if a `PullData`/`PushData` call fails at any point, cancelling it will not require any subsequent `DataStore` calls.
