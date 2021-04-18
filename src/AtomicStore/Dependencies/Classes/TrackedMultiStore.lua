@@ -18,12 +18,12 @@ TrackedMultiStore.__index = TrackedMultiStore
 function TrackedMultiStore.new(name, scope, data_store_names)
 	local self = setmetatable({}, TrackedMultiStore)
 
-	assert(name, "MultiTrackedStore expected arg <name>")
+	assert(name, "TrackedMultiStore expected arg <name>")
 	scope = scope or GLOBAL_SCOPE
-	assert(data_store_names, "MultiTrackedStore expected arg <data_store_names>")
-	assert(typeof(name)=="string", string.format("MultiTrackedStore received arg <name> of type %s. Expected string.", typeof(name)))
-	assert(typeof(scope)=="string", string.format("MultiTrackedStore received arg <scope> of type %s. Expected string.", typeof(scope)))
-	assert(typeof(data_store_names)=="table", string.format("MultiTrackedStore received arg <data_store_names> of type %s. Expected table.", typeof(data_store_names)))
+	assert(data_store_names, "TrackedMultiStore expected arg <data_store_names>")
+	assert(typeof(name)=="string", string.format("TrackedMultiStore received arg <name> of type %s. Expected string.", typeof(name)))
+	assert(typeof(scope)=="string", string.format("TrackedMultiStore received arg <scope> of type %s. Expected string.", typeof(scope)))
+	assert(typeof(data_store_names)=="table", string.format("TrackedMultiStore received arg <data_store_names> of type %s. Expected table.", typeof(data_store_names)))
 
 	self.OrderedDataStore = DataStoreService:GetOrderedDataStore(VERSION_HISTORY_NAME, SCOPE_PREFIX..scope)
 	self.DataStores = {}
@@ -49,7 +49,7 @@ function TrackedMultiStore:GetSaveKey(depth)
 	return page and (page[depth] and page[depth].key)
 end
 
-function TrackedStore:PullDataFromKey(save_key)
+function TrackedMultiStore:PullDataFromKey(save_key)
 	local extracted = {}
 	for name, data_store in  pairs(self.DataStores) do
 		extracted[name] = TrackedMultiStore.Utility.Safe.GetAsync(data_store, save_key)
@@ -73,7 +73,7 @@ function TrackedMultiStore:PushData(data_dict)
 	for name, data_store in pairs(self.DataStores) do
 		local data_success = TrackedMultiStore.Utility.Safe.SetAsync(data_store, guid, data_dict[name])
 		if not data_success then
-			warn("Couldn't update DataStore:"..name.." for MultiTrackedStore:"..self.Name)
+			warn("Couldn't update DataStore:"..name.." for TrackedMultiStore:"..self.Name)
 		end
 	end
 	
