@@ -7,6 +7,9 @@ nav:
     - Home: 
         - Introduction: 'index.md'
         - Methology: 'Methodology.md'
+        - Resources:
+            - Examples: 'Resources/Examples.md'
+            - 'Best Practices': 'Resources/BestPractices.md'
         - API:
             - AtomicStore: 'API/AtomicStore.md'
             - GeneralStore: 'API/GeneralStore.md'
@@ -14,9 +17,6 @@ nav:
             - TrackedStore: 'API/TrackedStore.md'
             - TrackedMultiStore: 'API/TrackedMultiStore.md'
             - LibraryStore: 'API/LibraryStore.md'
-        - Resources:
-            - Examples: 'Resources/Examples.md'
-            - 'Best Practices': 'Resources/BestPractices.md'
     - Installation: 'Installation.md'
 
 theme:
