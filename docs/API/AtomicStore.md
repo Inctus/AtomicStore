@@ -62,6 +62,17 @@ local TrackedMultiStore = AtomicStore:RetrieveTrackedMultiStore(
 
 Returns `TrackedMultiStore` instance. See [TrackedMultiStore](https://inctus.github.io/AtomicStore/API/TrackedMultiStore/).
 
+### `:RetrieveLibraryStore()`
+
+```lua
+local LibraryStore = AtomicStore:RetrieveLibraryStore(
+	<string name>, 
+	<string scope>
+)
+```
+
+Returns `LibraryStore` instance. See [LibraryStore](https://inctus.github.io/AtomicStore/API/LibraryStore/).
+
 ---------------------
 
 ## Store Management
