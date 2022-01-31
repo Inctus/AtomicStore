@@ -14,4 +14,6 @@
 
 </div>
 
+This project has been discontinued.
+
 --------------------
